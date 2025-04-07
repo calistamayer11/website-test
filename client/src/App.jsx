@@ -2,18 +2,19 @@ import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-
+import axios from "axios"
 function App() {
-  const [count, setCount] = useState(0)
-
+  const [count, setCount] = useState(0);
+  const [array, setArray] = useState([]);
   const fetchAPI = async () => {
-    const response = await axios.get("http://127.0.0.1:5000/api/users")
+    const response = await axios.get("http://127.0.0.1:8080/api/users")
     console.log(response.data.users)
+    setArray(response.data.users);
   }
   useEffect(() => {
     fetchAPI(); 
   }, []);
-  
+
   return (
     <>
       <div>
@@ -30,7 +31,11 @@ function App() {
           count is {count}
         </button>
         <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
+          {
+            array.map((user, index) => (
+              <span key={index}>{user} </span>
+            ))
+          }
         </p>
       </div>
       <p className="read-the-docs">
